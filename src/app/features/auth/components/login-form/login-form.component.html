@@ -6,6 +6,7 @@
       formControlName="email"
       type="text"
       autocomplete="off"
+      (focus)="errorMsg = ''"
       required
     />
     <mat-error *ngIf="email?.hasError('required')">
@@ -22,12 +23,19 @@
       formControlName="password"
       type="password"
       autocomplete="off"
+      (focus)="errorMsg = ''"
       required
     />
+    <mat-error *ngIf="errorMsg">
+      {{ errorMsg }}
+    </mat-error>
     <mat-error *ngIf="password?.hasError('required')">
       Password is required
     </mat-error>
   </mat-form-field>
+  <div *ngIf="errorMsg">
+    {{ errorMsg }}
+  </div>
   <div class="form-footer">
     <button mat-button type="submit">Submit</button>
   </div>

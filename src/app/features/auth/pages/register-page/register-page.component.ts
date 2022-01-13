@@ -21,6 +21,9 @@ export class RegisterPageComponent implements OnInit {
     this.authService
       .register(data)
       .then(() => this.router.navigate(['/']))
-      .catch((e) => console.log(e.message));
+      .catch((e) => {
+        console.log(e.message);
+        this.authService.setErrorMsg(e.message);
+      });
   }
 }

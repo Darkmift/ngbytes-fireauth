@@ -1,5 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
   selector: 'ngbytes-login-form',
@@ -12,9 +14,21 @@ export class LoginFormComponent implements OnInit {
     password: string;
   }> = new EventEmitter();
 
+  private errorMessageSub: Subscription;
+  errorMsg = '';
   form: FormGroup;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private authService: AuthService) {
+    this.errorMessageSub = this.authService
+      .getErrorMsg()
+      .subscribe((message) => {
+        this.errorMsg = message;
+        console.log(
+          '🚀 ~ file: login-form.component.ts ~ line 25 ~ LoginFormComponent ~ .subscribe ~ message',
+          { message, type: typeof message, tm: this.errorMsg }
+        );
+      });
+  }
 
   ngOnInit(): void {
     this.form = this.fb.group({
@@ -32,6 +46,16 @@ export class LoginFormComponent implements OnInit {
   }
 
   onSubmit() {
+    if (
+      this.email?.status === 'INVALID' ||
+      this.password?.status === 'INVALID'
+    ) {
+      return;
+    }
     this.formData.emit(this.form.value);
+  }
+
+  ngOnDestroy() {
+    this.errorMessageSub.unsubscribe();
   }
 }
