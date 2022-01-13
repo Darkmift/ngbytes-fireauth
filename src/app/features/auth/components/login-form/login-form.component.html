@@ -1,7 +1,13 @@
 <form class="form" [formGroup]="form" (ngSubmit)="onSubmit()">
   <mat-form-field class="form-control">
     <mat-label>Email</mat-label>
-    <input matInput formControlName="email" type="text" required />
+    <input
+      matInput
+      formControlName="email"
+      type="text"
+      autocomplete="off"
+      required
+    />
     <mat-error *ngIf="email?.hasError('required')">
       Email is required
     </mat-error>
@@ -11,7 +17,13 @@
   </mat-form-field>
   <mat-form-field class="form-control">
     <mat-label>Password</mat-label>
-    <input matInput formControlName="password" type="password" required />
+    <input
+      matInput
+      formControlName="password"
+      type="password"
+      autocomplete="off"
+      required
+    />
     <mat-error *ngIf="password?.hasError('required')">
       Password is required
     </mat-error>
